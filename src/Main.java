@@ -20,10 +20,7 @@ public class Main {
     testlist.add("QQQS");
     testlist.add("SEU3");
     testlist.add("SJP3");
-
-    portfolio1.calculate_main_metrics();
-    portfolio1.print_metrics();
-    portfolio1.set_symbols_to_true_shorts(testlist);
+    //portfolio1.set_symbols_to_true_shorts(testlist);
 
     portfolio1.print_metrics();
 
