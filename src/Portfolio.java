@@ -7,9 +7,7 @@ public class Portfolio {
         return positions;
     }
 
-    public void setPositions(List<Position> positions) {
-        this.positions = positions;
-    }
+
 
     List<Position> positions;           // Vielleicht HashMap ?
     double net_liquid;
@@ -22,6 +20,9 @@ public class Portfolio {
     double long_short_ratio;
     double leverage;
 
+    public void setPositions(List<Position> positions) {
+        this.positions = positions;
+    }
 
     public void calculate_main_metrics(){
 
@@ -29,7 +30,7 @@ public class Portfolio {
         calculate_long_exposure_from_real_longs();
         calculate_gross_exposure();
         calculate_net_exposure();
-        calculate_long_short_ratio();
+        calculate_short_ratio();
         calculate_leverage();
         calculate_net_liquid();
     }
@@ -40,7 +41,8 @@ public class Portfolio {
         System.out.println("Short exposure      :     " + this.short_exposure);
         System.out.println("Long-Short ratio    : " + this.long_short_ratio);
         System.out.println("Gross exposure      : " + this.gross_exposure);
-        System.out.println("net exposure        : " + this.net_exposure);
+        System.out.println("net exposure in amt : " + this.net_exposure);
+        System.out.println("net exposure in %   : " + this.gross_exposure/this.net_exposure);
         System.out.println("leverage            : " + this.leverage);
 
     }
@@ -64,8 +66,8 @@ public class Portfolio {
             if(new_true_short_symbols.contains(pos.symbol)){
                 pos.is_true_short = true;
             }
-
         }
+        calculate_main_metrics();
     }
 
 
@@ -103,12 +105,12 @@ public class Portfolio {
         this.net_exposure = this.long_exposure - this.short_exposure;
     }
 
-    public void calculate_long_short_ratio(){
+    public void calculate_short_ratio(){
         this.long_short_ratio = this.short_exposure / this.gross_exposure;
     }
 
     public void calculate_leverage(){
-        this.leverage = gross_exposure / net_exposure;
+        this.leverage = this.gross_exposure / this.net_exposure;
     }
 
     public void calculate_net_liquid(){
@@ -121,6 +123,8 @@ public class Portfolio {
                 sum_book_longs += pos.getPosition_value();
             }
         }
+        System.out.println("summe_buch_shorts : "+sum_book_longs);
+        System.out.println("summe_buch_longs : "+sum_book_shorts);
         net_liquid = sum_book_shorts + sum_book_longs;
     }
     public String import_custom_IBKR_portfolio_query(String csvpathname){
@@ -138,7 +142,6 @@ public class Portfolio {
                 Position temp_pos = new Position();
                 temp_pos.setSymbol(stingray[1]);
                 temp_pos.setName(stingray[5]);
-                System.out.println(stingray[5]);
                 temp_pos.setQuantity(Double.parseDouble(stingray[2]));
                 temp_pos.setPosition_value(Double.parseDouble(stingray[3]));
                 temp_pos.setBasis_price(Double.parseDouble(stingray[7]));

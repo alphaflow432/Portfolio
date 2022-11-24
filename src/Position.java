@@ -13,7 +13,7 @@ public class Position {
         this.orders = orders;
         this.stop_price = stop_price;
         this.is_true_short = is_true_short;
-        this.is_commidity = is_commidity;
+        
     }
 
     public Position() {
@@ -30,16 +30,15 @@ public class Position {
     int id;
     String name;
     String symbol;
-
-
-
+    String equity_classification;
     double position_value;
     double basis_price;
-
-
-
-    double basis_money;
+    double basis_money;         //  basis_price * quantity + transaction cost
     double quantity;
+    Order orders[];
+    double stop_price;
+    Boolean is_true_short;
+
 
     public Order[] getOrders() {
         return orders;
@@ -49,10 +48,7 @@ public class Position {
         this.orders = orders;
     }
 
-    Order orders[];
-    double stop_price;
-    Boolean is_true_short;
-    Boolean is_commidity;
+
 
     public String getName() {
         return name;
@@ -72,6 +68,9 @@ public class Position {
     public String getSymbol() {
         return symbol;
     }
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
     public double getPosition_value() {
         return position_value;
     }
@@ -79,9 +78,8 @@ public class Position {
         this.position_value = position_value;
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
+
+
 
     public double getBasis_price() {
         return basis_price;
@@ -124,13 +122,7 @@ public class Position {
 
 
 
-    public Boolean getIs_commidity() {
-        return is_commidity;
-    }
 
-    public void setIs_commidity(Boolean is_commidity) {
-        this.is_commidity = is_commidity;
-    }
 
 
 

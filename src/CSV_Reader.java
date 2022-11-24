@@ -24,7 +24,7 @@ public class CSV_Reader {
 
                 String[] token = line.split(delimiter);    // separate every token by comma
 
-                System.out.println(token[0] + " | " + token[1] + " | " + token[2] + " | " + token[3]);
+
                 poslist.add(line.replace("\"", ""));
 
             }

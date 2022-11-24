@@ -8,7 +8,8 @@ public class Main {
 
 
 
-    String csvpathname = "C:\\Users\\Mühle\\Downloads\\export_0.01(7).csv";
+    //String Windows_csvpathname = "C:\\Users\\Mühle\\Downloads\\export_0.01(7).csv";
+    String csvpathname = "src/export_0.01(7).csv";
 
     Portfolio portfolio1 = new Portfolio();
 
@@ -19,8 +20,11 @@ public class Main {
     testlist.add("QQQS");
     testlist.add("SEU3");
     testlist.add("SJP3");
-    //portfolio1.set_symbols_to_true_shorts(testlist);
+
     portfolio1.calculate_main_metrics();
+    portfolio1.print_metrics();
+    portfolio1.set_symbols_to_true_shorts(testlist);
+
     portfolio1.print_metrics();
 
 
