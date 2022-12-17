@@ -3,7 +3,30 @@ public class Position {
     // add order object from order class
 
 
-    public Position(int id, String name, String symbol, double basis_price, double basis_money, double quantity, Order[] orders, double stop_price, Boolean is_true_short, Boolean is_commidity) {
+    int id;
+    String name;
+    String symbol;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    String category;
+    double position_value;
+    double basis_price;
+    double basis_money;
+    double quantity;
+    Order orders[];
+    double stop_price;
+    Boolean is_true_short;
+
+
+
+    public Position(int id, String name, String symbol, double basis_price, double basis_money, double quantity, Order[] orders, double stop_price, Boolean is_true_short) {
         this.id = id;
         this.name = name;
         this.symbol = symbol;
@@ -13,33 +36,16 @@ public class Position {
         this.orders = orders;
         this.stop_price = stop_price;
         this.is_true_short = is_true_short;
-        this.is_commidity = is_commidity;
     }
 
     public Position() {
     }
-
     public Position(String symbol, double basis_price, double quantity,double basis_money) {
         this.symbol = symbol;
         this.basis_price = basis_price;
         this.quantity = quantity;
         this.basis_money = basis_money;
     }
-
-
-    int id;
-    String name;
-    String symbol;
-
-
-
-    double position_value;
-    double basis_price;
-
-
-
-    double basis_money;
-    double quantity;
 
     public Order[] getOrders() {
         return orders;
@@ -48,11 +54,6 @@ public class Position {
     public void setOrders(Order[] orders) {
         this.orders = orders;
     }
-
-    Order orders[];
-    double stop_price;
-    Boolean is_true_short;
-    Boolean is_commidity;
 
     public String getName() {
         return name;
@@ -72,15 +73,17 @@ public class Position {
     public String getSymbol() {
         return symbol;
     }
-    public double getPosition_value() {
-        return position_value;
-    }
-    public void setPosition_value(double position_value) {
-        this.position_value = position_value;
-    }
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public double getPosition_value() {
+        return position_value;
+    }
+
+    public void setPosition_value(double position_value) {
+        this.position_value = position_value;
     }
 
     public double getBasis_price() {
@@ -121,22 +124,6 @@ public class Position {
     public void setIs_true_short(Boolean is_true_short) {
         this.is_true_short = is_true_short;
     }
-
-
-
-    public Boolean getIs_commidity() {
-        return is_commidity;
-    }
-
-    public void setIs_commidity(Boolean is_commidity) {
-        this.is_commidity = is_commidity;
-    }
-
-
-
-
-
-
 
 
 }

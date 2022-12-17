@@ -1,19 +1,8 @@
 import java.util.*;
 public class Portfolio {
 
-
-
-    public List<Position> getPositions() {
-        return positions;
-    }
-
-    public void setPositions(List<Position> positions) {
-        this.positions = positions;
-    }
-
     List<Position> positions;           // Vielleicht HashMap ?
     double net_liquid;
-
     String name;
     double gross_exposure;
     double net_exposure;
@@ -22,6 +11,13 @@ public class Portfolio {
     double long_short_ratio;
     double leverage;
 
+    public List<Position> getPositions() {
+        return positions;
+    }
+
+    public void setPositions(List<Position> positions) {
+        this.positions = positions;
+    }
 
     public void calculate_main_metrics(){
 
@@ -34,6 +30,50 @@ public class Portfolio {
         calculate_net_liquid();
     }
 
+    public void print_category_weights(){
+        CategoryAssignment assigner = new CategoryAssignment();
+        assigner.loadCategoriesFromConfigFolder();
+        assigner.assignFromConfig(positions);
+        calculate_main_metrics();
+
+
+        for (String category : assigner.longCategories){
+            System.out.println("Long "+ category);
+            System.out.println();
+            double sum = 0;
+            for (Position pos : positions){
+                if(pos.is_true_short==false
+                        && pos.getCategory() != null
+                        && pos.getCategory() == category){
+                    sum += Math.abs(pos.getPosition_value());
+                    System.out.println(sum);
+                }
+            }
+            System.out.println("Sum                  : " + sum);
+            System.out.println("Weight of Gross Long : " + sum/long_exposure);
+            System.out.println();
+            sum = 0;
+
+        }
+        for (String category : assigner.shortCategories){
+            System.out.println("Short "+ category);
+            System.out.println();
+            double sum = 0;
+            for (Position pos : positions){
+                if(pos.is_true_short==true
+                        && pos.getCategory() != null
+                        && pos.getCategory().equals(category)){
+                    sum += Math.abs(pos.getPosition_value());
+                    System.out.println(sum);
+                }
+            }
+            System.out.println("Sum                  : " + sum);
+            System.out.println("Weight of Gross Short : " + sum/short_exposure);
+            System.out.println();
+            sum = 0;
+
+        }
+    }
     public void print_metrics(){
         System.out.println("net liquid          : " + this.net_liquid);
         System.out.println("Long exposure       : " + this.long_exposure);
@@ -73,7 +113,7 @@ public class Portfolio {
         double long_summary;
         long_summary = 0.0;
         for (Position pos : this.positions) {
-            if(pos.is_true_short == false){
+            if(!pos.is_true_short){
                 //
                 double root_pos_value = Math.abs(pos.position_value);
                 long_summary = long_summary + root_pos_value;
@@ -104,7 +144,7 @@ public class Portfolio {
     }
 
     public void calculate_long_short_ratio(){
-        this.long_short_ratio = this.short_exposure / this.gross_exposure;
+        this.long_short_ratio = this.short_exposure / this.long_exposure;
     }
 
     public void calculate_leverage(){
@@ -128,7 +168,7 @@ public class Portfolio {
         List<Position> new_pos_list = new ArrayList<>();
 
         CSV_Reader csv_readerInst = new CSV_Reader();
-        List<String> posliste = csv_readerInst.Csv_to_List(csvpathname);
+        List<String> posliste = csv_readerInst.Csv_to_String_List(csvpathname);
 
         final String delemiter = ",";
         int counter = 0;
@@ -158,5 +198,7 @@ public class Portfolio {
 
         return counter + " positions imported";
     }
+
+
 
 }
