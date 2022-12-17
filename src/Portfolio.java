@@ -18,7 +18,7 @@ public class Portfolio {
     public double long_summary(){
         double summary = 0.0;
         for (Position pos : positions){
-            if(pos.is_true_short==false){
+            if(!pos.is_true_short){
                 summary += Math.abs(pos.position_value);
             }
         }
