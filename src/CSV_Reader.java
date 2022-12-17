@@ -6,10 +6,18 @@ import java.io.IOException;
 
 public class CSV_Reader {
 
-    List<String> Csv_to_List(String pathname) {
+
+    List<String> Csv_to_String_List(String pathname) {
+        /**
+         *
+         * @param pathname of the csv file
+         * @return A List of Rows, each as one String delimited by ","
+         */
+
+        // Its supposed to REMOVE Double Quotes !
 
 
-        //String csvpathname = "C:\\Users\\Mühle\\Downloads\\export_0.01(5).csv";
+
         String csvpathname = pathname;
         String line = "";
         final String delimiter = ",";
@@ -24,7 +32,8 @@ public class CSV_Reader {
 
                 String[] token = line.split(delimiter);    // separate every token by comma
 
-
+                System.out.println(token[0] + " | " + token[1] + " | " + token[2] + " | " + token[3]);
+                // replacing double quotes !
                 poslist.add(line.replace("\"", ""));
 
             }
@@ -35,6 +44,30 @@ public class CSV_Reader {
         return poslist;
 
     }
+
+
+    /**
+     * @param pathname path of the csv file
+     * @return return s the first row of the csv file as one String
+     *          if not returns empty  string
+     */
+    public String csv_first_row_to_String(String pathname){
+        String line1 = "";
+        try{
+            FileReader fileReader = new FileReader(pathname);
+            BufferedReader reader = new BufferedReader(fileReader);
+            line1 = reader.readLine();
+
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        return line1;
+
+    }
+
+
+
 
 
 
