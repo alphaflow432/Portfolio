@@ -9,9 +9,22 @@ public class CategoryAssignment {
     HashMap<String,String[]> assignmentList = new HashMap<>();
 
     public String assignFromConfig(List<Position> positions){
-        String AssignmentsFileName = "config\\CategoriesAssignments.csv";
+
+        String WindowsAssignmentsFileName = "config\\CategoriesAssignments.csv";
+        String LinuxAssignmentsFileName = "config/CategoriesAssignments.csv";
+        String AssignmentsFileName ="";
+
         String results = "";
 
+        if(System.getProperty("os.name").equals("Linux")){
+            AssignmentsFileName = LinuxAssignmentsFileName;
+        }
+        else if(System.getProperty("os.name").equals("Windows")) {
+            AssignmentsFileName = WindowsAssignmentsFileName;
+        }
+        else {
+            return "Operating System need to be Linux or Windows";
+        }
 
         final String delimiter = ",";
         String line;
@@ -30,6 +43,7 @@ public class CategoryAssignment {
         catch(Exception e){
             return e.getMessage();
         }
+
 
         for (Position pos : positions){
             if(assignmentList.containsKey(pos.getSymbol())){
@@ -57,26 +71,48 @@ public class CategoryAssignment {
         return "Everything went right";
     }
 
-    public void loadCategoriesFromConfigFolder(){
-        String shortCategoriesFileName = "C:\\Users\\Mühle\\IdeaProjects\\Portfolio\\config\\ShortCategories.csv";
-        String longCategoriesFileName = "config\\LongCategories.csv";
+    public String loadCategoriesFromConfigFolder(){
+        String WindowsShortCategoriesFileName = "config\\ShortCategories.csv";
+        String WindowsLongCategoriesFileName = "config\\LongCategories.csv";
+        String LinuxShortCategoriesFileName = "config/ShortCategories.csv";
+        String LinuxLongCategoriesFileName = "config/LongCategories.csv";
 
-        // Reading in Short categories
-        CSV_Reader temp_reader = new CSV_Reader();
-        String temp_short_categories = temp_reader.csv_first_row_to_String(shortCategoriesFileName);
-        Collections.addAll(this.shortCategories, temp_short_categories.split(","));
+        String longCategoriesFileName = "";
+        String shortCategoriesFileName = "";
 
-        // Reading in Long categories
-        String temp_long_categories = temp_reader.csv_first_row_to_String(longCategoriesFileName);
-        Collections.addAll(this.longCategories, temp_long_categories.split(","));
+        if(System.getProperty("os.name").equals("Linux")){
+            longCategoriesFileName = LinuxLongCategoriesFileName;
+            shortCategoriesFileName = LinuxShortCategoriesFileName;
+        }
+        else if(System.getProperty("os.name").equals("Windows")) {
+            shortCategoriesFileName = WindowsShortCategoriesFileName;
+            longCategoriesFileName = WindowsLongCategoriesFileName;
+        }
+        else {
+            return "Operating System need to be Linux or Windows";
+        }
 
 
+        try {
+            // Reading in Short categories
+            CSV_Reader temp_reader = new CSV_Reader();
+            String temp_short_categories = temp_reader.csv_first_row_to_String(shortCategoriesFileName);
+            Collections.addAll(this.shortCategories, temp_short_categories.split(","));
+        }
+        catch(Exception e){
+            return e.getMessage();
+        }
 
+        try {
+            // Reading in Long categories
+            String temp_long_categories = temp_reader.csv_first_row_to_String(longCategoriesFileName);
+            Collections.addAll(this.longCategories, temp_long_categories.split(","));
+        }
+        catch (Exception e){
+            return e.getMessage();
+        }
 
-
-
-
-
+        return null;
 
 
     }
